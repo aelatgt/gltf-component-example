@@ -52,7 +52,7 @@ AFRAME.registerComponent('drag-scale', {
       // to avoid compounding of error
       const dy = this.dragCursor.position.y - this.prevPosition.y;
        
-      let currScale = this.hoverNode.counter.data.scale
+      let currScale = this.hoverShape.counter.data.scale
 
       //Update the scale of the object as the vertical change in the cursor position.
       currScale.y = currScale.y + dy;
