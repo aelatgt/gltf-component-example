@@ -2,6 +2,10 @@
 
 This repository contains a script to be attached to a room in Hubs. It defines a component `hover-shape` that can be added to a GLTF for loading in Hubs.  These GLTFs can be dropped on the scene or added to spoke file. 
 
+We use custom GLTF components for our custom content because we get all the GLTF behaviors for free, especially the ability to define the origin of our custom content (it will be positioned whereever the GLTF is.)  Because our custom components (and whatever content they create) are part of a Hubs GLTF, they behave like other GLTFs. For non-scene objects, pointing at any non-interactive 3D content (the geometry object) will cause all of the GLTFs content to highlight; pressing the appropriate key while the object is highlighted will bring up the object menu (to move, scale, pin, destroy, drop, refresh, download, or clone the object).  Pointing at the interactive boxes will turn the cursor blue. 
+
+#### Script Overview
+
 The script adds content to the GLTF by defining a custom component in Hubs' GLTF loader:
 ```
 AFRAME.GLTFModelPlus.registerComponent('hover-shape', 'hover-shape')
@@ -35,8 +39,6 @@ For `box2` (the green box), we add:
 ```
 which says it's interactive and can be clicked on. We add an object listener for "interact" events on the object3D of `box2`.
 
-Because these objects are part of a Hubs GLTF, they behave like other GLTFs. For non-scene objects, pointing at any non-interactive 3D content (the geometry object) will cause all of the GLTFs content to highlight; pressing the appropriate key while the object is highlighted will bring up the object menu (to move, scale, pin, destroy, drop, refresh, download, or clone the object).  Pointing at the interactive boxes will turn the cursor blue. 
-
 #### Networked Objects in Hubs.
 
 In this section, we provide some additional details of how NAF and Hubs work.  
@@ -62,14 +64,11 @@ Finally, we save a pointer to the existing networked entity, or create a new one
 
 #### Usage
 
-The components necessary are the drag-rotate component, the single-action-button component, which is from Matt's https://github.com/aelatgt/hubs-scripting-guide tutorial, and the hover-shape component.
-The hover-shape-combined.js file registers all of these components, as well as registers the new template which depends on them, and adds an a-entity with the template to a
-scene. These are based off of the examples within hubs-scripting-guide.
+The components created here are the `drag-rotate` component, the `hover-count`, and the hover-shape component.  Only the `hover-shape` component should be used in a GLTF.  
 
 To inject this script into a Hubs room:
-1. Copy the link to the script being served statically on GitHub Pages: https://www.aelatgt.org/hover-shape-component/scripts/hover-shape-combined.js
+1. Copy the link to the script being served statically on GitHub Pages: https://www.aelatgt.org/sample-gltf-components/scripts/hover-shape-combined.js
 2. Paste in the Custom Scripts in Room Settings of a Hubs Room and hit Apply.
 3. Reload the Hubs room
-4. Drag the hover-controller.glb and the hover-shape.glb files into the room to place them.
+4. Drag the hover-shape.glb into the room to place them, or add it to a spoke scene.
 5. Now the entity will change shape when the controller is pressed.
-Note: As of now the position of the cube is fixed, so you may want to test on the WideOpenSpace scene or other less busy scenes that spawn you near the origin.
