@@ -42,7 +42,7 @@ AFRAME.registerComponent('drag-scale', {
   tick: function () {
     // don't get hoverShape till first frame
     if (!this.hoverShape) {
-        this.hoverNode = this.el.parentNode.components["hover-shape"];
+        this.hoverShape = this.el.parentNode.components["hover-shape"];
     }
 
     // If any cursor is held down...
