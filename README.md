@@ -2,7 +2,11 @@
 
 This repository contains a script to be attached to a room in Hubs. It defines a component `hover-shape` that can be added to a GLTF for loading in Hubs.  These GLTFs can be dropped on the scene or added to spoke file. 
 
-We use custom GLTF components for our custom content because we get all the GLTF behaviors for free, especially the ability to define the origin of our custom content (it will be positioned whereever the GLTF is.)  Because our custom components (and whatever content they create) are part of a Hubs GLTF, they behave like other GLTFs. For non-scene objects, pointing at any non-interactive 3D content (the geometry object) will cause all of the GLTFs content to highlight; pressing the appropriate key while the object is highlighted will bring up the object menu (to move, scale, pin, destroy, drop, refresh, download, or clone the object).  Pointing at the interactive boxes will turn the cursor blue. 
+We use custom GLTF components for our custom content because we get all the GLTF behaviors for free, especially the ability to define the origin of our custom content (it will be positioned where ever the GLTF is).  Because our custom components (and whatever content they create) are part of a Hubs GLTF, they behave like other GLTFs. For non-scene objects, pointing at any non-interactive 3D content (the geometry object) will cause all of the GLTFs content to highlight; pressing the appropriate key while the object is highlighted will bring up the object menu (to move, scale, pin, destroy, drop, refresh, download, or clone the object).  Pointing at the interactive boxes will turn the cursor blue. 
+
+Here's a room with 3 of the [hover-shape.glb](glb/hover-shape.glb) in it.
+
+![Hubs Room with 3 of the custom components in it](screenshot.png)
 
 #### Script Overview
 
