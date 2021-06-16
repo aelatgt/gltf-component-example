@@ -115,11 +115,17 @@ AFRAME.registerComponent('drag-scale', {
         // or create an entity if we are first.
         this.setupNetworkedEntity = function (networkedEl) {
             var netId;
+            var persistent = true;
+
             if (networkedEl) {
                 // We will be part of a Networked GLTF if the GLTF was dropped on the scene
                 // or pinned and loaded when we enter the room.  Use the networked parents
                 // networkId plus a disambiguating bit of text to create a unique Id.
                 netId = NAF.utils.getNetworkId(networkedEl) + "-hover";
+
+                // if we need to create an entity, use the same persistence as our
+                // network entity (true if pinned, false if not)
+                persistent = entity.components.networked.data.persistent;
             } else {
                 // this only happens if this component is on a scene file, since the
                 // elements on the scene aren't networked.  So let's assume each entity in the
@@ -138,11 +144,14 @@ AFRAME.registerComponent('drag-scale', {
             } else {
                 entity = document.createElement('a-entity')
 
-                // the "networked" component should have persistent=false, the template and 
-                // networkId set, and should NOT set owner or creator (the system will do that)
+                // the "networked" component should have persistent=true, the template and 
+                // networkId set, owner set to "scene" (so that it doesn't update the rest of
+                // the world with it's initial data, and should NOT set creator (the 
+                // system will do that)
                 entity.setAttribute('networked', {
                     template: "#hover-shape-media",
-                    persistent: false,
+                    persistent: persistent,
+                    owner: "scene",  // so that our initial value doesn't overwrite others
                     networkId: netId
                 });
                 this.el.sceneEl.appendChild(entity);
@@ -334,7 +343,8 @@ AFRAME.registerComponent('hover-counter', {
 });
 
 // Add our template for our networked object to the a-frame assets object,
-// and a schema to the NAF.schemas.  Both must be there to have custom components work
+// and a schema to the NAF.schemas.  Both must be there to have custom components work.
+// Name the component something that ends in "-media"
 const assets = document.querySelector("a-assets");
 assets.insertAdjacentHTML(
     'beforeend',
@@ -381,7 +391,23 @@ NAF.schemas.add({
       	property: "index"
     }
     ],
-  });
+    nonAuthorizedComponents: [
+        {
+            component: "hover-counter",
+            property: "rotation",
+            requiresNetworkUpdate: vectorRequiresUpdate(0.001)
+        },
+        {
+            component: "hover-counter",
+            property: "scale",
+            requiresNetworkUpdate: vectorRequiresUpdate(0.001)
+        },
+        {
+              component: "hover-counter",
+              property: "index"
+        }
+        ],
+      });
 
 // Register our component with the GLTFModelPlus, so it can be loaded as a child
 // of a glTF.  This is the only way in Hubs to get objects with arbitrary content loaded
